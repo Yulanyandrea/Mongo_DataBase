@@ -17,3 +17,13 @@ return userByCountry;
 export function createUser(user){
   return User.create(user)
 }
+
+export function updateUser(id,user){
+  const updateUser=User.findByIdAndUpdate(id,user,{new:true});
+  return updateUser;
+}
+
+export function deleteUser(id){
+  const deleteUser=User.findByIdAndDelete(id);
+  return deleteUser
+}

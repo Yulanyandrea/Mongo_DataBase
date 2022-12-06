@@ -14,6 +14,7 @@ const UserSchema=new Schema({
   country:{
     type:String,
     enum:['COLOMBIA','ARGENTINA','BRASIL','PERU'],
+    uppercase: true,
     default:'COLOMBIA'
   },
 },

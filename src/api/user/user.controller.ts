@@ -1,4 +1,9 @@
-import {getAllUsers,getUserByField,createUser,getUserById} from './user.services';
+import {getAllUsers,
+  getUserByField,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser} from './user.services';
 
 export async function handleAllGetUsers(req,res){
   try {
@@ -40,10 +45,40 @@ export async function handleGetUser(req,res){
   const {id}=req.params;
   try {
     const getUser=await getUserById(id);
+    if(!getUser){
+      return res.status(404).json({message:"User not found"})
+    }
+    return res.status(200).json(getUser)
 
   } catch (error) {
+   return res.status(500).json(error);
 
   }
+}
+
+export async function handleUpdateUser(req,res) {
+  const data =req.body;
+  const {id}=req.params;
+  try {
+    const Update= await updateUser(id,data);
+    return res.status(201).json(Update);
+  } catch (error) {
+    return res.status(500).json(error);
+
+  }
+
+}
+
+export async function handleDeleteUser(req,res) {
+  const { id } = req.params;
+  try {
+    await deleteUser(id);
+
+    return res.status(200).json({ message: "User deleted" });
+  } catch(error) {
+    return res.status(500).json(error);
+  }
+
 }
 
 
