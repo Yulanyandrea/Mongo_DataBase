@@ -1,7 +1,7 @@
 import User from "./user.model";
 
 export function getAllUsers(){
-  return User.find({})
+  return User.find({},{password:0})
 }
 
 export function getUserById(id){

@@ -48,7 +48,7 @@ export async function handleGetUser(req,res){
     if(!getUser){
       return res.status(404).json({message:"User not found"})
     }
-    return res.status(200).json(getUser)
+    return res.status(200).json(getUser.userVirtualEnviroment)
 
   } catch (error) {
    return res.status(500).json(error);
@@ -70,13 +70,17 @@ export async function handleUpdateUser(req,res) {
 }
 
 export async function handleDeleteUser(req,res) {
-  const { id } = req.params;
+  const { id }=req.params;
   try {
-    await deleteUser(id);
+    const user=await getUserById(id);
+    if(!user){
+      return res.status(404).json({message:"user not found"});
+    }
+    await user.remove();
+    return res.status(200).json({message: "user deleted"});
+  } catch (error) {
+    return res.status(500).json(error)
 
-    return res.status(200).json({ message: "User deleted" });
-  } catch(error) {
-    return res.status(500).json(error);
   }
 
 }
