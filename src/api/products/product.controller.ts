@@ -1,4 +1,4 @@
-//import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 //import { AuthRequest } from '../../auth/auth.types';
 import {
@@ -8,13 +8,13 @@ import {
   updateProduct,
 } from './product.services'
 
-export async function handleAllGetProducts(req,res) {
+export async function handleAllGetProducts(req:Request,res:Response,next:NextFunction) {
   const products = await getAllProducts();
 
   return res.status(200).json(products);
 }
 
-export async function handleGetProductById(req,res) {
+export async function handleGetProductById(req:Request,res:Response,next:NextFunction) {
   const { id } = req.params;
 
   const product = await getProductById(id);
@@ -26,7 +26,7 @@ export async function handleGetProductById(req,res) {
   return res.status(200).json(product);
 }
 
-export async function handleCreateProduct(req,res) {
+export async function handleCreateProduct(req:Request,res:Response,next:NextFunction) {
   const data = req.body;
 
   try {
@@ -38,7 +38,7 @@ export async function handleCreateProduct(req,res) {
   }
 }
 
-export async function handleUpdateProduct(req,res) {
+export async function handleUpdateProduct(req:Request,res:Response,next:NextFunction) {
   const { id } = req.params;
   const data = req.body;
 
@@ -51,7 +51,7 @@ export async function handleUpdateProduct(req,res) {
   return res.status(200).json(product);
 }
 
-export async function handleDeleteProduct(req,res) {
+export async function handleDeleteProduct(req:Request,res:Response,next:NextFunction) {
   const { id } = req.params;
   try {
     return res.status(200).json({ message: 'Product deleted' });

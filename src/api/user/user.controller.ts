@@ -1,11 +1,13 @@
+import {Request, Response, NextFunction} from 'express';
 import {getAllUsers,
   getUserByField,
   createUser,
   getUserById,
   updateUser,
-  deleteUser} from './user.services';
+  deleteUser,
+  getUser} from './user.services';
 
-export async function handleAllGetUsers(req,res){
+export async function handleAllGetUsers(req:Request,res:Response,next:NextFunction){
   try {
     const users=await getAllUsers();
     return res.status(200).json(users)
@@ -17,7 +19,7 @@ export async function handleAllGetUsers(req,res){
   }
 }
 
-export async function handleGetUserByField(req, res){
+export async function handleGetUserByField(req:Request, res:Response,next:NextFunction){
   const {country}=req.params;
   try {
     const users= await getUserByField(country);
@@ -30,18 +32,18 @@ export async function handleGetUserByField(req, res){
   }
 }
 
-export async function handleCreateUser(req,res){
+export async function handleCreateUser(req:Request,res:Response,next:NextFunction){
   const data=req.body;
   try {
     const user= await createUser(data);
     return res.status(201).json(user);
 
-  } catch (error) {
+  } catch (error:any) {
     return res.status(500).json(error.message)
   }
 }
 
-export async function handleGetUser(req,res){
+export async function handleGetUser(req:Request,res:Response,next:NextFunction){
   const {id}=req.params;
   try {
     const getUser=await getUserById(id);
@@ -56,7 +58,7 @@ export async function handleGetUser(req,res){
   }
 }
 
-export async function handleUpdateUser(req,res) {
+export async function handleUpdateUser(req:Request,res:Response,next:NextFunction) {
   const data =req.body;
   const {id}=req.params;
   try {
@@ -69,7 +71,7 @@ export async function handleUpdateUser(req,res) {
 
 }
 
-export async function handleDeleteUser(req,res) {
+export async function handleDeleteUser(req:Request,res:Response,next:NextFunction) {
   const { id }=req.params;
   try {
     const user=await getUserById(id);
@@ -83,6 +85,22 @@ export async function handleDeleteUser(req,res) {
 
   }
 
+}
+
+export async function handleLoginUser(req:Request,res:Response,next:NextFunction) {
+  const { email, password }=req.body;
+  try {
+    const userLogin=await getUser({email})
+    if(!userLogin){
+      return res.status(404).json({message:"user not found"})
+    }
+    const validatePassword= await userLogin.comparePassword(password)
+    return res.status(200).json({message:"User logged in"})
+
+  } catch (error:any) {
+    return res.status(500).json(error.message)
+
+  }
 }
 
 
