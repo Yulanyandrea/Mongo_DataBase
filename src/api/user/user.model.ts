@@ -15,7 +15,7 @@ export interface UserDocument extends Document{
   createdAt: Date;
   updateAt:Date;
 
-  userVirtualEnviroment:userProfileType;
+  userProfile:userProfileType;
   comparePassword:(password:string)=>Promise<boolean>;
 
 }
@@ -56,15 +56,18 @@ const UserSchema=new Schema({
     trim:true,
     lowercase:true,
   },
+  profilePicture:{
+    type:String
+  },
   passwordResetToken: String,
   passwordResetExpires: Date,
 },
   {
     timestamps:true,
     versionKey:false
-  })
+  });
 
-  UserSchema.virtual('userVirtualEnviroment').get(function fulldataUser(){
+  UserSchema.virtual('userProfile').get(function fulldataUser(){
     const { firstName,lastName, country, email, role}=this
     return { firstName, lastName, country, email, role }
   })

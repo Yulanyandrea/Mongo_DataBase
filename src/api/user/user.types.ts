@@ -2,6 +2,6 @@ export type userProfileType = {
   firstName: string;
   lastName: string;
   email: string;
-  avatar: string;
+  profilePicture: string;
   role: string;
 }

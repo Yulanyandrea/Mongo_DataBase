@@ -4,7 +4,9 @@ import { handleAllGetUsers,
   handleCreateUser ,
   handleUpdateUser,
   handleDeleteUser,
-  handleLoginUser} from './user.controller';
+ } from './user.controller';
+import { Authenticated } from '../../auth/auth.services'
+
 
 const router=Router()
 
@@ -20,12 +22,11 @@ router.get('/:id', handleGetUser);
 router.post('/',handleCreateUser);
 
 //patch
-router.patch('/:id',handleUpdateUser);
+router.patch('/:id',Authenticated, handleUpdateUser);
 
 //delete
-router.delete('/:id',handleDeleteUser);
+router.delete('/:id',Authenticated,handleDeleteUser);
 
-//login
-router.post('/login', handleLoginUser);
+
 
 export default router;

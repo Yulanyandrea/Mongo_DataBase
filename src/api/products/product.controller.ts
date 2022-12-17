@@ -6,7 +6,9 @@ import {
   getProductById,
   createProduct,
   updateProduct,
+  deleteProduct,
 } from './product.services'
+import { verifyToken } from '../../auth/auth.services';
 
 export async function handleAllGetProducts(req:Request,res:Response,next:NextFunction) {
   const products = await getAllProducts();
@@ -53,9 +55,16 @@ export async function handleUpdateProduct(req:Request,res:Response,next:NextFunc
 
 export async function handleDeleteProduct(req:Request,res:Response,next:NextFunction) {
   const { id } = req.params;
+
   try {
+
+    const product=await deleteProduct(id)
+    if(!product){
+      return res.status(404).json({message:'Product not found'})
+    }
+
     return res.status(200).json({ message: 'Product deleted' });
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+ }
